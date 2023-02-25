@@ -29,5 +29,18 @@ func main() {
 
 		c.String(http.StatusOK, "upload file success: %s, %s, %s", location, content, file.Filename)
 	})
+
+	r.GET("/my-report/:userId", func(c *gin.Context) {
+		userId := c.Param("userId")
+		// user id 로 db 조회
+		c.String(http.StatusOK, "userId: %s", userId)
+	})
+
+	r.GET("/report/:reportId", func(c *gin.Context) {
+		reportId := c.Param("reportId")
+		// report id 로 db 조회
+		c.String(http.StatusOK, "reportId: %s", reportId)
+	})
+
 	r.Run(":8080") // listen and serve on
 }
