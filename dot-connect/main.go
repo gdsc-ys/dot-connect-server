@@ -1,46 +1,25 @@
 package main
 
 import (
-	"net/http"
-	"path/filepath"
-
+	docs "dot-connect/docs"
 	"github.com/gin-gonic/gin"
+	swaggerfiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
+	"dot-connect/handler"
 )
 
 func main() {
 	r := gin.Default()
 	r.MaxMultipartMemory = 8 << 20 // 8 MiB
-	r.POST("/upload", func(c *gin.Context) {
-		location := c.PostForm("location")
-		content := c.PostForm("content")
+	docs.SwaggerInfo.Title = "Dot Connect API"
+	docs.SwaggerInfo.BasePath = "/api/v1"
+	r.POST("/upload", handler.PostReport)
 
-		file, err := c.FormFile("file")
-		if err != nil {
-			c.String(http.StatusBadRequest, "get form err: %s", err.Error())
-			return
-		}
+	r.GET("/my-report/:userId", handler.GetUserReport)
 
-		// filename := filepath.Base(file.Filename)
-		filename := filepath.Join("media", file.Filename)
-		if err := c.SaveUploadedFile(file, filename); err != nil {
-			c.String(http.StatusBadRequest, "upload file err: %s", err.Error())
-			return
-		}
+	r.GET("/report/:reportId", handler.GetDetailReport)
 
-		c.String(http.StatusOK, "upload file success: %s, %s, %s", location, content, file.Filename)
-	})
-
-	r.GET("/my-report/:userId", func(c *gin.Context) {
-		userId := c.Param("userId")
-		// user id 로 db 조회
-		c.String(http.StatusOK, "userId: %s", userId)
-	})
-
-	r.GET("/report/:reportId", func(c *gin.Context) {
-		reportId := c.Param("reportId")
-		// report id 로 db 조회
-		c.String(http.StatusOK, "reportId: %s", reportId)
-	})
+	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
 
 	r.Run(":8080") // listen and serve on
 }
