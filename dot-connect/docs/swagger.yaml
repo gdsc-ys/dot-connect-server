@@ -1,4 +1,88 @@
+definitions:
+  model.Report:
+    properties:
+      content:
+        type: string
+      id:
+        example: 1
+        type: integer
+      image:
+        type: string
+      location:
+        example: ex_location
+        type: string
+    type: object
 info:
   contact: {}
-paths: {}
+paths:
+  /reports/{reportId}:
+    get:
+      consumes:
+      - application/json
+      description: get one of report
+      parameters:
+      - description: report ID
+        in: path
+        name: reportId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Report'
+      summary: get report detail
+      tags:
+      - reports
+  /reports/my/{userId}:
+    get:
+      consumes:
+      - application/json
+      description: get MyReports
+      parameters:
+      - description: user ID
+        in: path
+        name: userId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Report'
+      summary: List reports
+      tags:
+      - reports
+  /reports/upload:
+    post:
+      description: 에러 신고에 이미지, 장소, 내용이 담긴다.
+      parameters:
+      - in: formData
+        name: content
+        type: string
+      - example: 1
+        in: formData
+        name: id
+        type: integer
+      - in: formData
+        name: image
+        type: string
+      - example: ex_location
+        in: formData
+        name: location
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Report'
+      summary: 에러 신고 업로드
+      tags:
+      - reports
 swagger: "2.0"
