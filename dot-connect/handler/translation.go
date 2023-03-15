@@ -9,7 +9,7 @@ import (
 
 type BrailleMsg struct {
 	Str string `json:"str"`
-	Braille []string `json:"braille"`
+	Braille []int `json:"braille"`
 }
 
 type RawBrailleBody struct {
@@ -27,14 +27,20 @@ func TranslateToBraille(c *gin.Context) {
 
 	braille_hexcodes := [][]int{{0x2823, 0x2812}, {0x2809, 0x283B}}
 
-	msg := map[string][]int{}	
+	msg := []BrailleMsg{}	
 
 	for i, kor_letter := range kor_word {
 		if i == len(kor_word) {
 			break
 		}
+		
+		brailleElemnt := BrailleMsg{}
+
 		array_index := int(i / 3)
-		msg[string(kor_letter)] = braille_hexcodes[array_index]
+		brailleElemnt.Str = string(kor_letter)
+		brailleElemnt.Braille = braille_hexcodes[array_index]
+
+		msg = append(msg, brailleElemnt)
 	}
 
 	c.JSON(http.StatusOK, msg)
@@ -65,14 +71,19 @@ func TranslateToKorean(c *gin.Context) {
 
 	braille_hexcodes := [][]int{{0x2823, 0x2812}, {0x2809, 0x283B}}
 
-	msg := map[string][]int{}	
+	msg := []BrailleMsg{}	
 
 	for i, kor_letter := range kor_word {
 		if i == len(kor_word) {
 			break
 		}
+		brailleElemnt := BrailleMsg{}
+
 		array_index := int(i / 3)
-		msg[string(kor_letter)] = braille_hexcodes[array_index]
+		brailleElemnt.Str = string(kor_letter)
+		brailleElemnt.Braille = braille_hexcodes[array_index]
+
+		msg = append(msg, brailleElemnt)
 	}
 
 	c.JSON(http.StatusOK, msg)
