@@ -1,12 +1,22 @@
 package main
 
 import (
+	"dot-connect/docs"
+	"dot-connect/handler"
+	"net/http"
+
 	"github.com/gin-gonic/gin"
 	swaggerfiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
-	"dot-connect/handler"
-	"dot-connect/docs"
 )
+
+func setupSwagger(r *gin.Engine) {
+    r.GET("/", func(c *gin.Context) {
+        c.Redirect(http.StatusFound, "/swagger/index.html")
+    })
+
+    r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
+}
 
 func main() {
 	docs.SwaggerInfo.Title = "Swagger Example API"
@@ -25,8 +35,9 @@ func main() {
 			reports.GET("/:reportId", handler.GetDetailReport)
 		}
 	}
-
-	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
+	r.GET("/translation", handler.TranslateToBraille)
+	r.POST("/translation/braille", handler.TranslateToKorean)
+	setupSwagger(r)
 
 	r.Run(":8080") // listen and serve on
 }
