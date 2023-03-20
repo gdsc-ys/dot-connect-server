@@ -2,7 +2,7 @@ package handler
 
 import (
 	"net/http"
-	"path/filepath"
+	// "path/filepath"
 
 	"github.com/gin-gonic/gin"
 )
@@ -17,22 +17,24 @@ import (
 // @Router       /reports/upload [post] 
 func PostReport(c *gin.Context) {
 	location := c.PostForm("location")
+	locationDetail := c.PostForm("locationDetail")
 	content := c.PostForm("content")
 
-	file, err := c.FormFile("file")
-	if err != nil {
-		c.String(http.StatusBadRequest, "get form err: %s", err.Error())
-		return
-	}
+	// file, err := c.FormFile("file")
+	// if err != nil {
+	// 	c.String(http.StatusBadRequest, "get form err: %s", err.Error())
+	// 	return
+	// }
 
-	// filename := filepath.Base(file.Filename)
-	filename := filepath.Join("media", file.Filename)
-	if err := c.SaveUploadedFile(file, filename); err != nil {
-		c.String(http.StatusBadRequest, "upload file err: %s", err.Error())
-		return
-	}
+	// // filename := filepath.Base(file.Filename)
+	// filename := filepath.Join("media", file.Filename)
+	// if err := c.SaveUploadedFile(file, filename); err != nil {
+	// 	c.String(http.StatusBadRequest, "upload file err: %s", err.Error())
+	// 	return
+	// }
 
-	c.String(http.StatusOK, "upload file success: %s, %s, %s", location, content, file.Filename)
+	// c.String(http.StatusOK, "upload file success: %s, %s, %s, %s", location, locationDetail, content, file.Filename)
+	c.String(http.StatusOK, "upload file success: %s, %s, %s", location, locationDetail, content)
 }
 
 // ListMyReport godoc
