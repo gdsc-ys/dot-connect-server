@@ -11,9 +11,9 @@ import (
 // @Summary      에러 신고 업로드 
 // @Description  에러 신고에 이미지, 장소, 내용이 담긴다. 
 // @Tags         reports
-//	@Param			message	formData		model.Report	true	"Report Info"
+//	@Param			message	formData		model.PostReport	true	"Report Info"
 // @Produce      json
-// @Success      200   {object} model.Report 
+// @Success      200   {object} model.PostReport 
 // @Router       /reports/upload [post] 
 func PostReport(c *gin.Context) {
 	location := c.PostForm("location")
