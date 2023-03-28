@@ -2,10 +2,11 @@ package model
 
 // Bottle example
 type Report  struct {
-	ID      int     `json:"id" example:"1"`
-	LOCATION    string  `json:"location" example:"ex_location"`
+	Latitude   float64  `json:"latitude" example:"ex_latitude"`
+	Longtitude float64  `json:"longtitude" example:"ex_longtitude"`
 	CONTENT string `json:"content"`
-	IMAGE string `json:"image"`
+
+	// IMAGE string `json:"image"`
 }
 
 type PostReport  struct {

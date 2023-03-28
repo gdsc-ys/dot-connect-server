@@ -15,12 +15,9 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/reports/my/{userId}": {
+        "/reports": {
             "get": {
                 "description": "get MyReports",
-                "consumes": [
-                    "application/json"
-                ],
                 "produces": [
                     "application/json"
                 ],
@@ -28,15 +25,6 @@ const docTemplate = `{
                     "reports"
                 ],
                 "summary": "List reports",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "user ID",
-                        "name": "userId",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
                 "responses": {
                     "200": {
                         "description": "OK",

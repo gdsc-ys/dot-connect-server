@@ -26,6 +26,19 @@ definitions:
 info:
   contact: {}
 paths:
+  /reports:
+    get:
+      description: get MyReports
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Report'
+      summary: List reports
+      tags:
+      - reports
   /reports/{reportId}:
     get:
       consumes:
@@ -45,27 +58,6 @@ paths:
           schema:
             $ref: '#/definitions/model.Report'
       summary: get report detail
-      tags:
-      - reports
-  /reports/my/{userId}:
-    get:
-      consumes:
-      - application/json
-      description: get MyReports
-      parameters:
-      - description: user ID
-        in: path
-        name: userId
-        required: true
-        type: integer
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/model.Report'
-      summary: List reports
       tags:
       - reports
   /reports/upload:
