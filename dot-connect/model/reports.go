@@ -9,7 +9,6 @@ type Report  struct {
 }
 
 type PostReport  struct {
-	ID string `json:"id" example:"1"`
 	LOCATION    string  `json:"location" example:"ex_location"`
 	LOCATIONDETAIL   string  `json:"locationDetail" example:"ex_location_detail"`
 	CONTENT string `json:"content"`
