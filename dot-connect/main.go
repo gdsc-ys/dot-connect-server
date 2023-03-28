@@ -36,7 +36,7 @@ func main() {
 	// docs.SwaggerInfo.Title = "Dot Connect API"
 
 	r.Use(cors.New(cors.Config{
-		AllowOrigins:     []string{"https://dot-connect-r6ge.vercel.app"},
+		AllowOrigins:     []string{"https://dot-connect-r6ge.vercel.app", "http://localhost:3000"},
 		AllowMethods:     []string{"POST"},
 		AllowHeaders:     []string{"Origin"},
 		ExposeHeaders:    []string{"Content-Length"},
