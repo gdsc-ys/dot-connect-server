@@ -5,6 +5,7 @@ import (
 	"dot-connect/model"
 	"log"
 	"net/http"
+	"strconv"
 
 	// "path/filepath"
 
@@ -18,16 +19,29 @@ import (
 // @Summary      에러 신고 업로드
 // @Description  에러 신고에 이미지, 장소, 내용이 담긴다.
 // @Tags         reports
-//
-//	@Param			message	formData		model.PostReport	true	"Report Info"
-//
+//	@Param		message	formData   model.Report	true	"Report Info"
 // @Produce      json
-// @Success      200   {object} model.PostReport
+// @Success      200   {object} model.Report
 // @Router       /reports/upload [post]
-func PostReport(c *gin.Context) {
-	location := c.PostForm("location")
-	locationDetail := c.PostForm("locationDetail")
-	content := c.PostForm("content")
+func PostReport(client *firestore.Client) gin.HandlerFunc{
+	fn := func(c *gin.Context) {
+		ctx := context.Background()
+		r := model.Report{}
+		
+		latitude, _ := strconv.ParseFloat(c.PostForm("Latitude"), 64)
+		longtitude, _ := strconv.ParseFloat(c.PostForm("Longtitude"), 64)
+		content := c.PostForm("content")
+		r.CONTENT = content
+		r.LATITUDE = latitude
+		r.LONGTITUDE = longtitude
+		_, _, err := client.Collection("reports").Add(ctx, map[string]interface{}{
+			"location": latlng.LatLng{Latitude: latitude, Longitude: longtitude},
+			"content": content,
+		})
+		if err != nil {
+			// Handle any errors in an appropriate way, such as returning them.
+			log.Printf("An error has occurred: %s", err)
+		}
 
 	// file, err := c.FormFile("file")
 	// if err != nil {
@@ -43,7 +57,9 @@ func PostReport(c *gin.Context) {
 	// }
 
 	// c.String(http.StatusOK, "upload file success: %s, %s, %s, %s", location, locationDetail, content, file.Filename)
-	c.String(http.StatusOK, "upload file success: %s, %s, %s", location, locationDetail, content)
+	c.JSON(http.StatusOK, r)
+	}
+	return gin.HandlerFunc(fn)
 }
 
 // ListMyReport godoc
@@ -73,8 +89,8 @@ func GetReports(client *firestore.Client) gin.HandlerFunc {
 			location := mapData["location"].(*latlng.LatLng)
 
 			report.CONTENT = mapData["content"].(string)
-			report.Latitude =  location.GetLatitude()
-			report.Longtitude = location.GetLongitude()
+			report.LATITUDE =  location.GetLatitude()
+			report.LONGTITUDE = location.GetLongitude()
 			r = append(r, report)
 		}
 		c.JSON(http.StatusOK, r)

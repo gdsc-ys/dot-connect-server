@@ -60,7 +60,7 @@ func main() {
 
 	reports := r.Group("/reports")
 	{
-		reports.POST("/upload", handler.PostReport)
+		reports.POST("/upload", handler.PostReport(client))
 		reports.GET("/", handler.GetReports(client))
 		reports.GET("/:reportId", handler.GetDetailReport)
 	}
