@@ -1,4 +1,15 @@
 definitions:
+  model.PostReport:
+    properties:
+      content:
+        type: string
+      location:
+        example: ex_location
+        type: string
+      locationDetail:
+        example: ex_location_detail
+        type: string
+    type: object
   model.Report:
     properties:
       content:
@@ -64,16 +75,13 @@ paths:
       - in: formData
         name: content
         type: string
-      - example: 1
-        in: formData
-        name: id
-        type: integer
-      - in: formData
-        name: image
-        type: string
       - example: ex_location
         in: formData
         name: location
+        type: string
+      - example: ex_location_detail
+        in: formData
+        name: locationDetail
         type: string
       produces:
       - application/json
@@ -81,7 +89,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/model.Report'
+            $ref: '#/definitions/model.PostReport'
       summary: 에러 신고 업로드
       tags:
       - reports

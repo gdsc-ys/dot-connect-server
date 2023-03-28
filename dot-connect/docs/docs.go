@@ -64,20 +64,15 @@ const docTemplate = `{
                         "in": "formData"
                     },
                     {
-                        "type": "integer",
-                        "example": 1,
-                        "name": "id",
-                        "in": "formData"
-                    },
-                    {
-                        "type": "string",
-                        "name": "image",
-                        "in": "formData"
-                    },
-                    {
                         "type": "string",
                         "example": "ex_location",
                         "name": "location",
+                        "in": "formData"
+                    },
+                    {
+                        "type": "string",
+                        "example": "ex_location_detail",
+                        "name": "locationDetail",
                         "in": "formData"
                     }
                 ],
@@ -85,7 +80,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/model.Report"
+                            "$ref": "#/definitions/model.PostReport"
                         }
                     }
                 }
@@ -151,6 +146,22 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "model.PostReport": {
+            "type": "object",
+            "properties": {
+                "content": {
+                    "type": "string"
+                },
+                "location": {
+                    "type": "string",
+                    "example": "ex_location"
+                },
+                "locationDetail": {
+                    "type": "string",
+                    "example": "ex_location_detail"
+                }
+            }
+        },
         "model.Report": {
             "type": "object",
             "properties": {
