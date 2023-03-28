@@ -1,20 +1,26 @@
 package handler
 
 import (
+	"context"
+	"fmt"
+	"log"
 	"net/http"
+
 	// "path/filepath"
 
+	"cloud.google.com/go/firestore"
 	"github.com/gin-gonic/gin"
+	"google.golang.org/api/iterator"
 )
 
-// PostReport             
-// @Summary      에러 신고 업로드 
-// @Description  에러 신고에 이미지, 장소, 내용이 담긴다. 
+// PostReport
+// @Summary      에러 신고 업로드
+// @Description  에러 신고에 이미지, 장소, 내용이 담긴다.
 // @Tags         reports
 //	@Param			message	formData		model.PostReport	true	"Report Info"
 // @Produce      json
-// @Success      200   {object} model.PostReport 
-// @Router       /reports/upload [post] 
+// @Success      200   {object} model.PostReport
+// @Router       /reports/upload [post]
 func PostReport(c *gin.Context) {
 	location := c.PostForm("location")
 	locationDetail := c.PostForm("locationDetail")
@@ -47,10 +53,26 @@ func PostReport(c *gin.Context) {
 //	@Produce		json
 //	@Success		200	{object}	model.Report
 //	@Router			/reports/my/{userId} [get]
-func GetUserReport(c *gin.Context) {
-	userId := c.Param("userId")
-	// user id 로 db 조회
-	c.String(http.StatusOK, "userId: %s", userId)
+func GetUserReport(client *firestore.Client) gin.HandlerFunc {
+	fn := func(c *gin.Context) {
+		userId := c.Param("userId")
+		ctx := context.Background()
+		iter := client.Collection("reports").Documents(ctx);
+
+		for {
+        doc, err := iter.Next()
+        if err == iterator.Done {
+                break
+        }
+        if err != nil {
+                log.Fatalf("Failed to iterate: %v", err)
+        }
+        fmt.Println(doc.Data())
+}
+		// user id 로 db 조회
+		c.String(http.StatusOK, "userId: %s", userId)
+	}
+	return gin.HandlerFunc(fn)
 }
 
 // ListMyReport godoc
@@ -67,4 +89,9 @@ func GetDetailReport(c *gin.Context){
 	reportId := c.Param("reportId")
 	// report id 로 db 조회
 	c.String(http.StatusOK, "reportId: %s", reportId)
+}
+
+func GetFirebaseToken(c *gin.Context) {
+	
+	c.String(http.StatusOK, "firebase token")
 }

@@ -10,7 +10,13 @@ import (
 	"github.com/gin-gonic/gin"
 	swaggerfiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
+	"log"
+  
+	firebase "firebase.google.com/go"
+	// "google.golang.org/api/option"
+	"context"
 )
+
 
 func setupSwagger(r *gin.Engine) {
     r.GET("/", func(c *gin.Context) {
@@ -38,11 +44,24 @@ func main() {
 		MaxAge: 12 * time.Hour,
 	  }))
 
+	// r.GET("/firebase", handler.GetFirebaseToken)
+	ctx := context.Background() 
+	conf := &firebase.Config{ProjectID: "dot-connect-374203"}
+	app, err := firebase.NewApp(ctx, conf)
+	if err != nil {
+	log.Fatalln(err)
+	}
+
+	client, err := app.Firestore(ctx)
+	if err != nil {
+	log.Fatalln(err)
+	}
+	defer client.Close()
 
 	reports := r.Group("/reports")
 	{
 		reports.POST("/upload", handler.PostReport)
-		reports.GET("/my/:userId", handler.GetUserReport)
+		reports.GET("/my/:userId", handler.GetUserReport(client))
 		reports.GET("/:reportId", handler.GetDetailReport)
 	}
 	r.GET("/translation", handler.TranslateToBraille)
