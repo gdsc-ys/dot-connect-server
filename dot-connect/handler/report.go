@@ -3,6 +3,7 @@ package handler
 import (
 	"context"
 	"dot-connect/model"
+	"fmt"
 	"log"
 	"net/http"
 	"strconv"
@@ -25,12 +26,13 @@ func PostReport(client *firestore.Client) gin.HandlerFunc{
 		ctx := context.Background()
 		r := model.ReportForm{}
 		
-		latitude, _ := strconv.ParseFloat(c.PostForm("Latitude"), 64)
-		longtitude, _ := strconv.ParseFloat(c.PostForm("Longtitude"), 64)
+		latitude, _ := strconv.ParseFloat(c.PostForm("latitude"), 64)
+		longtitude, _ := strconv.ParseFloat(c.PostForm("longtitude"), 64)
 		content := c.PostForm("content")
 		r.CONTENT = content
 		r.LATITUDE = latitude
 		r.LONGTITUDE = longtitude
+
 		_, _, err := client.Collection("reports").Add(ctx, map[string]interface{}{
 			"latitude": latitude,
 			"longitude": longtitude,
@@ -41,20 +43,6 @@ func PostReport(client *firestore.Client) gin.HandlerFunc{
 			log.Printf("An error has occurred: %s", err)
 		}
 
-	// file, err := c.FormFile("file")
-	// if err != nil {
-	// 	c.String(http.StatusBadRequest, "get form err: %s", err.Error())
-	// 	return
-	// }
-
-	// // filename := filepath.Base(file.Filename)
-	// filename := filepath.Join("media", file.Filename)
-	// if err := c.SaveUploadedFile(file, filename); err != nil {
-	// 	c.String(http.StatusBadRequest, "upload file err: %s", err.Error())
-	// 	return
-	// }
-
-	// c.String(http.StatusOK, "upload file success: %s, %s, %s, %s", location, locationDetail, content, file.Filename)
 	c.JSON(http.StatusOK, r)
 	}
 	return gin.HandlerFunc(fn)
