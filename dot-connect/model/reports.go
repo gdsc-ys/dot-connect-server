@@ -1,7 +1,7 @@
 package model
 
 // Bottle example
-type Report  struct {
+type ReportForm  struct {
 	LATITUDE   float64  `json:"latitude" example:"ex_latitude"`
 	LONGTITUDE float64  `json:"longtitude" example:"ex_longtitude"`
 	CONTENT string `json:"content"`
