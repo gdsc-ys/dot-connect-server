@@ -2,13 +2,7 @@ package model
 
 // Bottle example
 type ReportForm  struct {
-	LATITUDE   float64  `json:"latitude" example:"ex_latitude"`
-	LONGTITUDE float64  `json:"longtitude" example:"ex_longtitude"`
-	CONTENT string `json:"content"`
-}
-
-type PostReport  struct {
-	LOCATION    string  `json:"location" example:"ex_location"`
-	LOCATIONDETAIL   string  `json:"locationDetail" example:"ex_location_detail"`
+	LATITUDE   float64  `json:"latitude" example:"37.55327189658719"`
+	LONGTITUDE float64  `json:"longtitude" example:"126.97232991836047"`
 	CONTENT string `json:"content"`
 }

@@ -1,27 +1,14 @@
 definitions:
-  model.PostReport:
+  model.ReportForm:
     properties:
       content:
         type: string
-      location:
-        example: ex_location
-        type: string
-      locationDetail:
-        example: ex_location_detail
-        type: string
-    type: object
-  model.Report:
-    properties:
-      content:
-        type: string
-      id:
-        example: 1
-        type: integer
-      image:
-        type: string
-      location:
-        example: ex_location
-        type: string
+      latitude:
+        example: 37.55327189658719
+        type: number
+      longtitude:
+        example: 126.97232991836047
+        type: number
     type: object
 info:
   contact: {}
@@ -35,29 +22,8 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/model.Report'
+            $ref: '#/definitions/model.ReportForm'
       summary: List reports
-      tags:
-      - reports
-  /reports/{reportId}:
-    get:
-      consumes:
-      - application/json
-      description: get one of report
-      parameters:
-      - description: report ID
-        in: path
-        name: reportId
-        required: true
-        type: integer
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/model.Report'
-      summary: get report detail
       tags:
       - reports
   /reports/upload:
@@ -67,21 +33,21 @@ paths:
       - in: formData
         name: content
         type: string
-      - example: ex_location
+      - example: 37.55327189658719
         in: formData
-        name: location
-        type: string
-      - example: ex_location_detail
+        name: latitude
+        type: number
+      - example: 126.97232991836047
         in: formData
-        name: locationDetail
-        type: string
+        name: longtitude
+        type: number
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/model.PostReport'
+            $ref: '#/definitions/model.ReportForm'
       summary: 에러 신고 업로드
       tags:
       - reports

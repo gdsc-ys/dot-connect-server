@@ -29,7 +29,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/model.Report"
+                            "$ref": "#/definitions/model.ReportForm"
                         }
                     }
                 }
@@ -52,15 +52,15 @@ const docTemplate = `{
                         "in": "formData"
                     },
                     {
-                        "type": "string",
-                        "example": "ex_location",
-                        "name": "location",
+                        "type": "number",
+                        "example": 37.55327189658719,
+                        "name": "latitude",
                         "in": "formData"
                     },
                     {
-                        "type": "string",
-                        "example": "ex_location_detail",
-                        "name": "locationDetail",
+                        "type": "number",
+                        "example": 126.97232991836047,
+                        "name": "longtitude",
                         "in": "formData"
                     }
                 ],
@@ -68,39 +68,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/model.PostReport"
-                        }
-                    }
-                }
-            }
-        },
-        "/reports/{reportId}": {
-            "get": {
-                "description": "get one of report",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "reports"
-                ],
-                "summary": "get report detail",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "report ID",
-                        "name": "reportId",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/model.Report"
+                            "$ref": "#/definitions/model.ReportForm"
                         }
                     }
                 }
@@ -134,38 +102,19 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "model.PostReport": {
+        "model.ReportForm": {
             "type": "object",
             "properties": {
                 "content": {
                     "type": "string"
                 },
-                "location": {
-                    "type": "string",
-                    "example": "ex_location"
+                "latitude": {
+                    "type": "number",
+                    "example": 37.55327189658719
                 },
-                "locationDetail": {
-                    "type": "string",
-                    "example": "ex_location_detail"
-                }
-            }
-        },
-        "model.Report": {
-            "type": "object",
-            "properties": {
-                "content": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "integer",
-                    "example": 1
-                },
-                "image": {
-                    "type": "string"
-                },
-                "location": {
-                    "type": "string",
-                    "example": "ex_location"
+                "longtitude": {
+                    "type": "number",
+                    "example": 126.97232991836047
                 }
             }
         }
