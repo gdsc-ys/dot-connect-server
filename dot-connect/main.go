@@ -4,19 +4,32 @@ import (
 	"dot-connect/docs"
 	"dot-connect/handler"
 	"net/http"
+	"os"
 	"time"
 
 	"log"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
+	"github.com/joho/godotenv"
 	swaggerfiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
 
 	firebase "firebase.google.com/go"
-	// "google.golang.org/api/option"
 	"context"
 )
+
+func goDotEnvVariable(key string) string {
+
+	// load .env file
+	err := godotenv.Load(".env")
+  
+	if err != nil {
+	  log.Fatalf("Error loading .env file")
+	}
+  
+	return os.Getenv(key)
+  }
 
 func setupSwagger(r *gin.Engine) {
 	r.GET("/", func(c *gin.Context) {
@@ -46,7 +59,8 @@ func main() {
 
 	// r.GET("/firebase", handler.GetFirebaseToken)
 	ctx := context.Background()
-	conf := &firebase.Config{ProjectID: "dot-connect-374203"}
+	project_id := goDotEnvVariable("FIRE_BASE_PROJECT_ID")
+	conf := &firebase.Config{ProjectID: project_id}
 	app, err := firebase.NewApp(ctx, conf)
 	if err != nil {
 		log.Fatalln(err)
