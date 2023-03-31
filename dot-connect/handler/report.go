@@ -3,7 +3,6 @@ package handler
 import (
 	"context"
 	"dot-connect/model"
-	"fmt"
 	"log"
 	"net/http"
 	"strconv"
