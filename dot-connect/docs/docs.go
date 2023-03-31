@@ -73,32 +73,6 @@ const docTemplate = `{
                     }
                 }
             }
-        },
-        "/translation": {
-            "get": {
-                "description": "한글를 점자로 점역하는 API",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "braille"
-                ],
-                "summary": "한글 -\u003e 점자 점역",
-                "responses": {}
-            }
-        },
-        "/translation/braille": {
-            "post": {
-                "description": "점자를 점자로 역점역하는 API",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "braille"
-                ],
-                "summary": "점자 -\u003e 한글 역점역",
-                "responses": {}
-            }
         }
     },
     "definitions": {
