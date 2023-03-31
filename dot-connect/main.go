@@ -62,10 +62,7 @@ func main() {
 	{
 		reports.POST("/upload", handler.PostReport(client))
 		reports.GET("/", handler.GetReports(client))
-		reports.GET("/:reportId", handler.GetDetailReport)
 	}
-	r.GET("/translation", handler.TranslateToBraille)
-	r.POST("/translation/braille", handler.TranslateToKorean)
 	setupSwagger(r)
 
 	r.Run(":8080") // listen and serve on
